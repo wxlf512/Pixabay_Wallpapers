@@ -6,8 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.wxlf.pixabaywallpapers.R
 import dev.wxlf.pixabaywallpapers.databinding.CategoryItemBinding
+import java.util.*
 
-class CategoriesListAdapter(private val categories: List<String>, val onCategoryClick: (category: String) -> Unit) :
+class CategoriesListAdapter(
+    private val categories: List<String>,
+    val onCategoryClick: (category: String) -> Unit
+) :
     RecyclerView.Adapter<CategoriesListAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(private val binding: CategoryItemBinding) :
@@ -17,7 +21,8 @@ class CategoriesListAdapter(private val categories: List<String>, val onCategory
                 onCategoryClick(category)
             }
 
-            binding.category = category
+            binding.category =
+                category.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
             binding.executePendingBindings()
         }
     }

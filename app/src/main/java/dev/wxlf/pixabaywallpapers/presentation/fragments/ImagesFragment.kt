@@ -1,18 +1,32 @@
 package dev.wxlf.pixabaywallpapers.presentation.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import dev.wxlf.pixabaywallpapers.data.entities.ImageEntity
 import dev.wxlf.pixabaywallpapers.databinding.FragmentImagesBinding
+import dev.wxlf.pixabaywallpapers.presentation.adapters.ImagesListAdapter
+import dev.wxlf.pixabaywallpapers.presentation.viewmodels.ImagesViewModel
+import dev.wxlf.pixabaywallpapers.presentation.viewmodels.utils.ImagesEvent
+import dev.wxlf.pixabaywallpapers.presentation.viewmodels.utils.ImagesViewState
+import java.util.*
 
 @AndroidEntryPoint
 class ImagesFragment : Fragment() {
 
+    private val viewModel by viewModels<ImagesViewModel>()
+
     private var _binding: FragmentImagesBinding? = null
     private val binding get() = _binding!!
+
+    private val imagesList = arrayListOf<ImageEntity>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,9 +37,31 @@ class ImagesFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.category = requireArguments().getString("category")
+        val category = requireArguments().getString("category").orEmpty()
+
+        viewModel.obtainEvent(ImagesEvent.LoadCategory(category))
+
+        binding.category = category.replaceFirstChar {
+            if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString()
+        }
+        binding.imagesList.layoutManager = GridLayoutManager(context, 2)
+        binding.imagesList.adapter =
+            ImagesListAdapter(imagesList,
+                onImageClick = {
+                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                })
+
+        viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
+            when(viewState) {
+                is ImagesViewState.CategoryLoaded -> {
+                    imagesList.addAll(viewState.images)
+                    (binding.imagesList.adapter as ImagesListAdapter).notifyDataSetChanged()
+                }
+            }
+        }
     }
 
 }
