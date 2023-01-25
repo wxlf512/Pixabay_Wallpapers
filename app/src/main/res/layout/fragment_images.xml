@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <data/>
+    <data>
+        <variable
+            name="category"
+            type="String" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,11 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="@string/categories"
+            android:text="@{category, default=Category}"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categoriesList"
+            android:id="@+id/imagesList"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Pixabay Wallpapers</string>
     <string name="pixabay_logo">Pixabay logo</string>
+    <string name="categories">Категории</string>
 </resources>

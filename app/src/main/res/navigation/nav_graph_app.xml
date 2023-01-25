@@ -7,15 +7,18 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="dev.wxlf.pixabaywallpapers.presentation.fragments.SplashFragment"
-        android:label="SplashFragment" >
-        <action
-            android:id="@+id/action_splashFragment_to_categoriesFragment"
-            app:destination="@id/categoriesFragment" />
-    </fragment>
+        android:label="SplashFragment" />
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="dev.wxlf.pixabaywallpapers.presentation.fragments.CategoriesFragment"
         android:label="CategoriesFragment" >
         <deepLink app:uri="pixwall://categories" />
+    </fragment>
+    <fragment
+        android:id="@+id/imagesFragment"
+        android:name="dev.wxlf.pixabaywallpapers.presentation.fragments.ImagesFragment"
+        android:label="ImagesFragment" >
+        <deepLink app:uri="pixwall://images?category={category}" />
+        <argument android:name="category" app:argType="string"/>
     </fragment>
 </navigation>
