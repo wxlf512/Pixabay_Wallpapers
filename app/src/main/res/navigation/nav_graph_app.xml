@@ -21,4 +21,11 @@
         <deepLink app:uri="pixwall://images?category={category}" />
         <argument android:name="category" app:argType="string"/>
     </fragment>
+    <fragment
+        android:id="@+id/imageFragment"
+        android:name="dev.wxlf.pixabaywallpapers.presentation.fragments.ImageFragment"
+        android:label="ImageFragment" >
+        <deepLink app:uri="pixwall://image?id={id}" />
+        <argument android:name="id" app:argType="integer"/>
+    </fragment>
 </navigation>

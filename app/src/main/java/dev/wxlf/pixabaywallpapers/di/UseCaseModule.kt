@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.wxlf.pixabaywallpapers.domain.PixabayRepository
 import dev.wxlf.pixabaywallpapers.domain.usecases.FetchCategoryUseCase
+import dev.wxlf.pixabaywallpapers.domain.usecases.FetchImageUseCase
 import javax.inject.Singleton
 
 @Module
@@ -16,4 +17,9 @@ class UseCaseModule {
     @Singleton
     fun provideFetchCategoryUseCase(repository: PixabayRepository): FetchCategoryUseCase =
         FetchCategoryUseCase(repository)
+
+    @Provides
+    @Singleton
+    fun provideFetchImageUseCase(repository: PixabayRepository): FetchImageUseCase =
+        FetchImageUseCase(repository)
 }

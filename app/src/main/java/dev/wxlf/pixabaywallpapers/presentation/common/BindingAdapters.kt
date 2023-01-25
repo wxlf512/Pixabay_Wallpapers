@@ -8,7 +8,7 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("app:imageUrl")
-    fun loadImage(view: ImageView, url: String) {
+    fun loadImage(view: ImageView, url: String?) {
         Glide.with(view).load(url).centerCrop().into(view)
     }
 }

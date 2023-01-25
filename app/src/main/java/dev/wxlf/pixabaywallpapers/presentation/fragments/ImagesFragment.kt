@@ -1,18 +1,20 @@
 package dev.wxlf.pixabaywallpapers.presentation.fragments
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.wxlf.pixabaywallpapers.data.entities.ImageEntity
 import dev.wxlf.pixabaywallpapers.databinding.FragmentImagesBinding
 import dev.wxlf.pixabaywallpapers.presentation.adapters.ImagesListAdapter
+import dev.wxlf.pixabaywallpapers.presentation.common.Routes
 import dev.wxlf.pixabaywallpapers.presentation.viewmodels.ImagesViewModel
 import dev.wxlf.pixabaywallpapers.presentation.viewmodels.utils.ImagesEvent
 import dev.wxlf.pixabaywallpapers.presentation.viewmodels.utils.ImagesViewState
@@ -51,7 +53,7 @@ class ImagesFragment : Fragment() {
         binding.imagesList.adapter =
             ImagesListAdapter(imagesList,
                 onImageClick = {
-                    Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(Uri.parse(Routes.Image.route + "?id=$it"))
                 })
 
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
