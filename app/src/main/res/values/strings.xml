@@ -5,4 +5,5 @@
     <string name="image">Image</string>
     <string name="set_as_background">Установить как обои</string>
     <string name="wallpapers_installed">Обои установлены</string>
+    <string name="error">Error</string>
 </resources>

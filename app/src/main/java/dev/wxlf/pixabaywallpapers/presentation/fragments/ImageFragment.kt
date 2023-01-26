@@ -44,7 +44,17 @@ class ImageFragment : Fragment() {
 
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when (viewState) {
+                ImageViewState.LoadingImage -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.errorText.visibility = View.GONE
+                    binding.imageView.visibility = View.GONE
+                    binding.setAsWallpaperButton.visibility = View.GONE
+                }
                 is ImageViewState.ImageLoaded -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.errorText.visibility = View.GONE
+                    binding.imageView.visibility = View.VISIBLE
+                    binding.setAsWallpaperButton.visibility = View.VISIBLE
                     binding.imageUrl = viewState.imageUrl
                     binding.setAsWallpaperButton.setOnClickListener {
                         val wallpaperManager = WallpaperManager.getInstance(context)
@@ -60,6 +70,13 @@ class ImageFragment : Fragment() {
                                 override fun onLoadCleared(placeholder: Drawable?) {}
                             })
                     }
+                }
+                is ImageViewState.ErrorState -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.errorText.visibility = View.VISIBLE
+                    binding.imageView.visibility = View.GONE
+                    binding.setAsWallpaperButton.visibility = View.GONE
+                    binding.errorText.text = viewState.message
                 }
             }
         }

@@ -58,9 +58,23 @@ class ImagesFragment : Fragment() {
 
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when(viewState) {
+                ImagesViewState.LoadingCategory -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.errorText.visibility = View.GONE
+                    binding.imagesList.visibility = View.GONE
+                }
                 is ImagesViewState.CategoryLoaded -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.errorText.visibility = View.GONE
+                    binding.imagesList.visibility = View.VISIBLE
                     imagesList.addAll(viewState.images)
                     (binding.imagesList.adapter as ImagesListAdapter).notifyDataSetChanged()
+                }
+                is ImagesViewState.ErrorState -> {
+                    binding.progressBar.visibility = View.GONE
+                    binding.errorText.visibility = View.VISIBLE
+                    binding.imagesList.visibility = View.GONE
+                    binding.errorText.text = viewState.message
                 }
             }
         }
