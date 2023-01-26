@@ -22,6 +22,9 @@ class ImagesViewModel @Inject constructor(
     private val _viewState = MutableLiveData<ImagesViewState>()
     val viewState: LiveData<ImagesViewState> get() = _viewState
 
+    private lateinit var category: String
+    private var page = 1
+
     init {
         _viewState.postValue(ImagesViewState.LoadingCategory)
     }
@@ -29,6 +32,7 @@ class ImagesViewModel @Inject constructor(
     fun obtainEvent(event: ImagesEvent) {
         when (event) {
             is ImagesEvent.LoadCategory -> {
+                category = event.category
                 viewModelScope.launch {
                     try {
                         val images = fetchCategoryUseCase.execute(event.category)
@@ -39,6 +43,20 @@ class ImagesViewModel @Inject constructor(
                         _viewState.postValue(ImagesViewState.ErrorState("Ошибка: Отсутствует подключение к сети"))
                     } catch (e: MalformedJsonException) {
                         _viewState.postValue(ImagesViewState.ErrorState("Ошибка, возможно вы не используете VPN"))
+                    } catch (e: Exception) {
+                        _viewState.postValue(
+                            ImagesViewState.ErrorState(
+                                e.localizedMessage ?: "Ошибка"
+                            )
+                        )
+                    }
+                }
+            }
+            ImagesEvent.LoadMoreImages -> {
+                viewModelScope.launch {
+                    try {
+                        val images = fetchCategoryUseCase.execute(category, ++page)
+                        _viewState.postValue(ImagesViewState.CategoryLoaded(images))
                     } catch (e: Exception) {
                         _viewState.postValue(
                             ImagesViewState.ErrorState(

@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface PixabayAPI {
 
     @GET("./?key=${BuildConfig.PIXABAY_API_KEY}")
-    suspend fun loadCategory(@Query("category") category: String) : CategoryEntity
+    suspend fun loadCategory(@Query("category") category: String, @Query("page") page: Int) : CategoryEntity
 
     @GET("./?key=${BuildConfig.PIXABAY_API_KEY}")
     suspend fun loadImage(@Query("id") id: Int) : CategoryEntity

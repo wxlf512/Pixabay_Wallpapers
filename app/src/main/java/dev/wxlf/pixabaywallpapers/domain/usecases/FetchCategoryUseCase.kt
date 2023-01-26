@@ -5,6 +5,6 @@ import dev.wxlf.pixabaywallpapers.domain.PixabayRepository
 
 class FetchCategoryUseCase(private val repository: PixabayRepository) {
 
-    suspend fun execute(category: String): ArrayList<ImageEntity> =
-        repository.fetchCategory(category).hits
+    suspend fun execute(category: String, page: Int = 1): ArrayList<ImageEntity> =
+        repository.fetchCategory(category, page).hits
 }

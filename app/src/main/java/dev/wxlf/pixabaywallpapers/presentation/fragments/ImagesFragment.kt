@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import dev.wxlf.pixabaywallpapers.data.entities.ImageEntity
 import dev.wxlf.pixabaywallpapers.databinding.FragmentImagesBinding
@@ -55,6 +56,16 @@ class ImagesFragment : Fragment() {
                 onImageClick = {
                     findNavController().navigate(Uri.parse(Routes.Image.route + "?id=$it"))
                 })
+        binding.imagesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = binding.imagesList.layoutManager as GridLayoutManager
+                if (layoutManager.findLastVisibleItemPosition() >= imagesList.lastIndex - 4) {
+                    viewModel.obtainEvent(ImagesEvent.LoadMoreImages)
+                }
+            }
+        })
 
         viewModel.viewState.observe(viewLifecycleOwner) { viewState ->
             when(viewState) {
