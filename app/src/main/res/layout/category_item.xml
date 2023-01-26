@@ -2,9 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable
-            name="category"
-            type="String" />
+        <import type="kotlin.Pair"/>
+        <variable name="category" type="Pair&lt;String, String&gt;"/>
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -12,9 +11,18 @@
         android:layout_margin="8dp"
         app:cardCornerRadius="8dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/category_item_tint"
             android:padding="8dp"
-            android:text="@{category, default=Category}"/>
+            android:text="@{category.first, default=Category}"
+            android:textColor="@color/white"
+            android:elevation="2dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:imageUrl="@{category.second}"
+            android:contentDescription="@string/category_background" />
     </androidx.cardview.widget.CardView>
 </layout>

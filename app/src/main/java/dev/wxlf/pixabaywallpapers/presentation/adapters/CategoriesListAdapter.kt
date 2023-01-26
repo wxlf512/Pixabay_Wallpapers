@@ -9,20 +9,20 @@ import dev.wxlf.pixabaywallpapers.databinding.CategoryItemBinding
 import java.util.*
 
 class CategoriesListAdapter(
-    private val categories: List<String>,
+    private val categories: List<Pair<String, String>>,
     val onCategoryClick: (category: String) -> Unit
 ) :
     RecyclerView.Adapter<CategoriesListAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(private val binding: CategoryItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(category: String) {
+        fun bind(category: Pair<String, String>) {
             binding.root.setOnClickListener {
-                onCategoryClick(category)
+                onCategoryClick(category.first)
             }
 
             binding.category =
-                category.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }
+                Pair(category.first.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }, category.second)
             binding.executePendingBindings()
         }
     }

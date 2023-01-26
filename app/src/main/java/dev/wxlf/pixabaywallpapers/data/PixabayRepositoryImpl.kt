@@ -10,4 +10,7 @@ class PixabayRepositoryImpl(private val remoteDataSource: PixabayRemoteDataSourc
 
     override suspend fun fetchImage(id: Int): CategoryEntity =
         remoteDataSource.loadImage(id)
+
+    override suspend fun fetchCategoryImage(category: String): CategoryEntity =
+        remoteDataSource.loadCategoryImage(category)
 }

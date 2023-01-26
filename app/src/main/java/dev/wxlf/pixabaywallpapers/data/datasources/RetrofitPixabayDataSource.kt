@@ -10,4 +10,7 @@ class RetrofitPixabayDataSource(private val pixabayAPI: PixabayAPI) :
 
     override suspend fun loadImage(id: Int): CategoryEntity =
         pixabayAPI.loadImage(id)
+
+    override suspend fun loadCategoryImage(category: String): CategoryEntity =
+        pixabayAPI.loadCategoryImage(category)
 }

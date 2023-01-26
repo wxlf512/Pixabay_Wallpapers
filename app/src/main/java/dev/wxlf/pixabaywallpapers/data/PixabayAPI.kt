@@ -12,4 +12,7 @@ interface PixabayAPI {
 
     @GET("./?key=${BuildConfig.PIXABAY_API_KEY}")
     suspend fun loadImage(@Query("id") id: Int) : CategoryEntity
+
+    @GET("./?key=${BuildConfig.PIXABAY_API_KEY}&per_page=3")
+    suspend fun loadCategoryImage(@Query("category") category: String) : CategoryEntity
 }
